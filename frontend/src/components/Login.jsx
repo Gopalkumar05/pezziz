@@ -2628,722 +2628,829 @@
 // export default Login;
 
 
-import React, { useState } from "react";
-import InputField from "./common/InputField";
-import Button from "./common/Button";
-import ToggleSwitch from "./common/ToggleSwitch";
-import PasswordField from "./common/PasswordField";
-import useValidation from "../hooks/useValidation";
-import { signIn, signUp } from "../services/authService";
+// import React, { useState } from "react";
+// import InputField from "./common/InputField";
+// import Button from "./common/Button";
+// import ToggleSwitch from "./common/ToggleSwitch";
+// import PasswordField from "./common/PasswordField";
+// import useValidation from "../hooks/useValidation";
+// import { signIn, signUp } from "../services/authService";
 
-const Login = ({ onForgotPassword }) => {
-  const [isSignUpActive, setIsSignUpActive] = useState(false);
-  const [signInMethod, setSignInMethod] = useState("mobile");
-  const [signUpMethod, setSignUpMethod] = useState("mobile");
-  const [showToggleSwitch, setShowToggleSwitch] = useState(false);
+// const Login = ({ onForgotPassword }) => {
+//   const [isSignUpActive, setIsSignUpActive] = useState(false);
+//   const [signInMethod, setSignInMethod] = useState("mobile");
+//   const [signUpMethod, setSignUpMethod] = useState("mobile");
+//   const [showToggleSwitch, setShowToggleSwitch] = useState(false);
 
-  // Password visibility states
-  const [showSignUpPassword, setShowSignUpPassword] = useState(false);
-  const [showSignInPassword, setShowSignInPassword] = useState(false);
+//   // Password visibility states
+//   const [showSignUpPassword, setShowSignUpPassword] = useState(false);
+//   const [showSignInPassword, setShowSignInPassword] = useState(false);
 
-  // Form submission status
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState("");
-  const [submitSuccess, setSubmitSuccess] = useState("");
+//   // Form submission status
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+//   const [submitError, setSubmitError] = useState("");
+//   const [submitSuccess, setSubmitSuccess] = useState("");
 
-  // Form state
-  const [signUpData, setSignUpData] = useState({
-    fullName: "",
-    email: "",
-    mobile: "",
-    password: "",
-  });
+//   // Form state
+//   const [signUpData, setSignUpData] = useState({
+//     fullName: "",
+//     email: "",
+//     mobile: "",
+//     password: "",
+//   });
 
-  const [signInData, setSignInData] = useState({
-    email: "",
-    mobile: "",
-    password: "",
-    rememberMe: false,
-  });
+//   const [signInData, setSignInData] = useState({
+//     email: "",
+//     mobile: "",
+//     password: "",
+//     rememberMe: false,
+//   });
 
-  // Apply validation
-  const signUpValidation = useValidation(signUpData, "signup");
-  const signInValidation = useValidation(signInData, "signin");
+//   // Apply validation
+//   const signUpValidation = useValidation(signUpData, "signup");
+//   const signInValidation = useValidation(signInData, "signin");
 
-  const handleSignUpChange = (e) => {
-    setSignUpData({
-      ...signUpData,
-      [e.target.name]: e.target.value,
-    });
-    setSubmitError("");
-    setSubmitSuccess("");
-  };
+//   const handleSignUpChange = (e) => {
+//     setSignUpData({
+//       ...signUpData,
+//       [e.target.name]: e.target.value,
+//     });
+//     setSubmitError("");
+//     setSubmitSuccess("");
+//   };
 
-  const handleSignInChange = (e) => {
-    const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    setSignInData({
-      ...signInData,
-      [e.target.name]: value,
-    });
-    setSubmitError("");
-    setSubmitSuccess("");
-  };
+//   const handleSignInChange = (e) => {
+//     const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+//     setSignInData({
+//       ...signInData,
+//       [e.target.name]: value,
+//     });
+//     setSubmitError("");
+//     setSubmitSuccess("");
+//   };
 
-  const handleSignUpSubmit = async (e) => {
-    e.preventDefault();
-    signUpValidation.touchAllFields();
+//   const handleSignUpSubmit = async (e) => {
+//     e.preventDefault();
+//     signUpValidation.touchAllFields();
 
-    if (!signUpValidation.isValid) {
-      setSubmitError("Please fix the errors before submitting");
-      return;
-    }
+//     if (!signUpValidation.isValid) {
+//       setSubmitError("Please fix the errors before submitting");
+//       return;
+//     }
 
-    setIsSubmitting(true);
-    setSubmitError("");
-    setSubmitSuccess("");
+//     setIsSubmitting(true);
+//     setSubmitError("");
+//     setSubmitSuccess("");
 
-    try {
-      await signUp(signUpData);
-      setSubmitSuccess("Registration successful! Please check your email/mobile for verification.");
+//     try {
+//       await signUp(signUpData);
+//       setSubmitSuccess("Registration successful! Please check your email/mobile for verification.");
       
-      // Optional: Reset form after successful submission
-      // setSignUpData({ fullName: '', email: '', mobile: '', password: '' });
-    } catch (error) {
-      setSubmitError(error.message || "Registration failed. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+//       // Optional: Reset form after successful submission
+//       // setSignUpData({ fullName: '', email: '', mobile: '', password: '' });
+//     } catch (error) {
+//       setSubmitError(error.message || "Registration failed. Please try again.");
+//     } finally {
+//       setIsSubmitting(false);
+//     }
+//   };
 
-  const handleSignInSubmit = async (e) => {
-    e.preventDefault();
-    signInValidation.touchAllFields();
+//   const handleSignInSubmit = async (e) => {
+//     e.preventDefault();
+//     signInValidation.touchAllFields();
 
-    if (!signInValidation.isValid) {
-      setSubmitError("Please fix the errors before submitting");
-      return;
-    }
+//     if (!signInValidation.isValid) {
+//       setSubmitError("Please fix the errors before submitting");
+//       return;
+//     }
 
-    setIsSubmitting(true);
-    setSubmitError("");
-    setSubmitSuccess("");
+//     setIsSubmitting(true);
+//     setSubmitError("");
+//     setSubmitSuccess("");
 
-    try {
-      const response = await signIn(signInData);
-      setSubmitSuccess("Login successful! Redirecting...");
+//     try {
+//       const response = await signIn(signInData);
+//       setSubmitSuccess("Login successful! Redirecting...");
       
-      // Store token if remember me is checked
-      if (signInData.rememberMe && response.token) {
-        localStorage.setItem("authToken", response.token);
-      }
+//       // Store token if remember me is checked
+//       if (signInData.rememberMe && response.token) {
+//         localStorage.setItem("authToken", response.token);
+//       }
       
-      // Redirect logic here
-      // window.location.href = '/dashboard';
-    } catch (error) {
-      setSubmitError(error.message || "Login failed. Please check your credentials.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+//       // Redirect logic here
+//       // window.location.href = '/dashboard';
+//     } catch (error) {
+//       setSubmitError(error.message || "Login failed. Please check your credentials.");
+//     } finally {
+//       setIsSubmitting(false);
+//     }
+//   };
 
-  const toggleSignUpPassword = (e) => {
-    e.preventDefault();
-    setShowSignUpPassword(!showSignUpPassword);
-  };
+//   const toggleSignUpPassword = (e) => {
+//     e.preventDefault();
+//     setShowSignUpPassword(!showSignUpPassword);
+//   };
 
-  const toggleSignInPassword = (e) => {
-    e.preventDefault();
-    setShowSignInPassword(!showSignInPassword);
-  };
+//   const toggleSignInPassword = (e) => {
+//     e.preventDefault();
+//     setShowSignInPassword(!showSignInPassword);
+//   };
 
-  // Pezzi Logo Component
-  const PezziLogo = () => (
-    <svg
-      width="200"
-      height="80"
-      viewBox="0 0 1200 400"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ maxWidth: "100%", height: "auto" }}
-    >
-      <defs>
-        <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#0d1a8c" />
-          <stop offset="100%" stopColor="#1e64c8" />
-        </linearGradient>
-      </defs>
-      <text
-        x="40"
-        y="290"
-        fontFamily="Arial, Helvetica, sans-serif"
-        fontWeight="900"
-        fontSize="260"
-        fill="url(#grad)"
-        letterSpacing="5"
-      >
-        Pezzi
-      </text>
-    </svg>
-  );
+//   // Pezzi Logo Component
+//   const PezziLogo = () => (
+//     <svg
+//       width="200"
+//       height="80"
+//       viewBox="0 0 1200 400"
+//       xmlns="http://www.w3.org/2000/svg"
+//       style={{ maxWidth: "100%", height: "auto" }}
+//     >
+//       <defs>
+//         <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+//           <stop offset="0%" stopColor="#0d1a8c" />
+//           <stop offset="100%" stopColor="#1e64c8" />
+//         </linearGradient>
+//       </defs>
+//       <text
+//         x="40"
+//         y="290"
+//         fontFamily="Arial, Helvetica, sans-serif"
+//         fontWeight="900"
+//         fontSize="260"
+//         fill="url(#grad)"
+//         letterSpacing="5"
+//       >
+//         Pezzi
+//       </text>
+//     </svg>
+//   );
 
+//   return (
+//     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-blue-100 flex items-center justify-center p-2 sm:p-4">
+//       {/* Hidden developer button */}
+//       {process.env.NODE_ENV === "development" && (
+//         <button
+//           onClick={() => setShowToggleSwitch(!showToggleSwitch)}
+//           className="fixed top-4 right-4 z-50 bg-blue-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm hover:bg-blue-700 transition-colors"
+//         >
+//           {showToggleSwitch ? "Hide" : "Show"} Toggle
+//         </button>
+//       )}
+
+//       <div className="absolute inset-0 overflow-hidden">
+//         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+//         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+//         <div className="absolute top-40 left-40 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+//       </div>
+
+//       <div className="relative w-full max-w-4xl min-h-[500px] sm:min-h-[550px] bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden">
+//         {/* Sign Up Form */}
+//         <div
+//           className={`
+//           absolute top-0 h-full w-full md:w-1/2 flex justify-center items-center
+//           transition-all duration-700 ease-in-out left-0
+//           ${isSignUpActive ? "translate-x-0 opacity-100 z-10 md:translate-x-full" : "translate-x-0 opacity-0 z-0 md:translate-x-0"}
+//         `}
+//         >
+//           <form
+//             className="w-11/12 sm:w-4/5 flex flex-col items-center"
+//             onSubmit={handleSignUpSubmit}
+//             noValidate
+//           >
+//             {/* Combined heading section for Sign Up */}
+//             <div className="text-center mb-6 sm:mb-8">
+//               <h1 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-2">
+//                 Pezzi
+//               </h1>
+//               <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
+//                 Create Account
+//               </h2>
+//             </div>
+
+//             {showToggleSwitch && (
+//               <ToggleSwitch
+//                 leftLabel="Email"
+//                 rightLabel="Mobile"
+//                 leftIcon="envelope"
+//                 rightIcon="phone"
+//                 checked={signUpMethod === "mobile"}
+//                 onChange={setSignUpMethod}
+//                 leftValue="email"
+//                 rightValue="mobile"
+//               />
+//             )}
+
+//             <InputField
+//               type="text"
+//               placeholder="Full Name"
+//               icon="user"
+//               name="fullName"
+//               value={signUpData.fullName}
+//               onChange={handleSignUpChange}
+//               onBlur={() => signUpValidation.touchField("fullName")}
+//               // error={signUpValidation.getFieldError("fullName")}
+//               required
+//             />
+
+//             {signUpMethod === "mobile" ? (
+//               <InputField
+//                 type="tel"
+//                 placeholder="Enter Your Mobile Number"
+//                 icon="phone"
+//                 name="mobile"
+//                 value={signUpData.mobile}
+//                 onChange={handleSignUpChange}
+//                 onBlur={() => signUpValidation.touchField("mobile")}
+//                 onKeyPress={(e) => {
+//                   if (!/[0-9]/.test(e.key)) {
+//                     e.preventDefault();
+//                   }
+//                 }}
+//                 onInput={(e) => {
+//                   e.target.value = e.target.value.replace(/[^0-9]/g, "");
+//                 }}
+//                 // error={signUpValidation.getFieldError("mobile")}
+//                 pattern="[0-9]{10}"
+//                 title="Please enter 10 digit mobile number"
+//                 maxLength={10}
+//                 required
+//               />
+//             ) : (
+//               <InputField
+//                 type="email"
+//                 placeholder="Enter Your Email"
+//                 // icon="envelope"
+//                 icon="user"
+//                 name="email"
+//                 value={signUpData.email}
+//                 onChange={handleSignUpChange}
+//                 onBlur={() => signUpValidation.touchField("email")}
+//                 // error={signUpValidation.getFieldError("email")}
+//                 required
+//               />
+//             )}
+
+//             <PasswordField
+//               placeholder="Enter Your Password"
+//               name="password"
+//               value={signUpData.password}
+//               onChange={handleSignUpChange}
+//               onBlur={() => signUpValidation.touchField("password")}
+//               showPassword={showSignUpPassword}
+//               onTogglePassword={toggleSignUpPassword}
+//               error={signUpValidation.getFieldError("password")}
+//               required
+//             />
+
+//             {/* Password strength indicator */}
+//             {signUpData.password && signUpData.password.length > 0 && (
+//               <div className="w-full mb-4">
+//                 <div className="flex justify-between mb-1">
+//                   <span className="text-xs text-gray-600">Password strength:</span>
+//                   <span className="text-xs font-medium">
+//                     {signUpData.password.length < 8
+//                       ? "Weak"
+//                       : /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])/.test(signUpData.password)
+//                         ? "Strong"
+//                         : "Medium"}
+//                   </span>
+//                 </div>
+//                 <div className="w-full h-1 bg-gray-200 rounded-full overflow-hidden">
+//                   <div
+//                     className={`h-full transition-all duration-300 ${
+//                       signUpData.password.length < 8
+//                         ? "bg-red-500 w-1/3"
+//                         : /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])/.test(signUpData.password)
+//                           ? "bg-green-500 w-full"
+//                           : "bg-yellow-500 w-2/3"
+//                     }`}
+//                   />
+//                 </div>
+//               </div>
+//             )}
+
+//             {submitError && (
+//               <div className="w-full mb-4 p-2 bg-red-50 border border-red-200 rounded-lg">
+//                 <p className="text-xs text-red-600 text-center">{submitError}</p>
+//               </div>
+//             )}
+
+//             {submitSuccess && (
+//               <div className="w-full mb-4 p-2 bg-green-50 border border-green-200 rounded-lg">
+//                 <p className="text-xs text-green-600 text-center">{submitSuccess}</p>
+//               </div>
+//             )}
+
+//             <Button
+//               type="submit"
+//               variant="primary"
+//               disabled={isSubmitting || !signUpValidation.isValid}
+//               className={isSubmitting ? "opacity-50 cursor-not-allowed" : ""}
+//             >
+//               {isSubmitting ? "Creating Account..." : "Sign Up"}
+//             </Button>
+
+//             <p className="mt-4 text-sm text-gray-600 md:hidden">
+//               Already have an account?{" "}
+//               <button
+//                 type="button"
+//                 onClick={() => setIsSignUpActive(false)}
+//                 className="text-[#4361ee] font-semibold hover:underline focus:outline-none"
+//               >
+//                 Sign In
+//               </button>
+//             </p>
+//           </form>
+//         </div>
+
+//         {/* Sign In Form */}
+//         <div
+//           className={`
+//           absolute top-0 h-full w-full md:w-1/2 flex justify-center items-center
+//           transition-all duration-700 ease-in-out left-0
+//           ${isSignUpActive ? "translate-x-0 opacity-0 z-0 md:translate-x-full" : "translate-x-0 opacity-100 z-10 md:translate-x-0"}
+//         `}
+//         >
+//           <form
+//             className="w-11/12 sm:w-4/5 flex flex-col items-center"
+//             onSubmit={handleSignInSubmit}
+//             noValidate
+//           >
+//             {/* Combined heading section for Sign In */}
+//             <div className="text-center mb-8 sm:mb-10">
+//               <h1 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-2">
+//                 Pezzi
+//               </h1>
+//               <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
+//                 Sign In
+//               </h2>
+//             </div>
+
+//             {showToggleSwitch && (
+//               <ToggleSwitch
+//                 leftLabel="Email"
+//                 rightLabel="Mobile"
+//                 leftIcon="envelope"
+//                 rightIcon="phone"
+//                 checked={signInMethod === "mobile"}
+//                 onChange={setSignInMethod}
+//                 leftValue="email"
+//                 rightValue="mobile"
+//               />
+//             )}
+
+//             {signInValidation.touchedFields.credential && signInValidation.errors.credential && (
+//               <div className="w-full mb-2">
+//                 <p className="text-xs text-red-500">{signInValidation.errors.credential}</p>
+//               </div>
+//             )}
+
+//             {signInMethod === "mobile" ? (
+//               <InputField
+//                 type="tel"
+//                 placeholder="Enter Your Mobile Number"
+//                 icon="phone"
+//                 name="mobile"
+//                 value={signInData.mobile}
+//                 onChange={handleSignInChange}
+//                 onBlur={() => signInValidation.touchField("mobile")}
+//                 onKeyPress={(e) => {
+//                   if (!/[0-9]/.test(e.key)) {
+//                     e.preventDefault();
+//                   }
+//                 }}
+//                 onInput={(e) => {
+//                   e.target.value = e.target.value.replace(/[^0-9]/g, "");
+//                 }}
+//                 // error={signInValidation.getFieldError("mobile")}
+//                 pattern="[0-9]{10}"
+//                 title="Please enter 10 digit mobile number"
+//                 maxLength={10}
+//                 required
+//               />
+//             ) : (
+//               <InputField
+//                 type="email"
+//                 placeholder="Enter the UserId"
+//                 // icon="envelope"
+//                 icon="user"
+//                 name="email"
+//                 value={signInData.email}
+//                 onChange={handleSignInChange}
+//                 onBlur={() => signInValidation.touchField("email")}
+//                 // error={signInValidation.getFieldError("email")}
+//                 required
+//               />
+//             )}
+
+//             <PasswordField
+//               placeholder="Password"
+//               name="password"
+//               value={signInData.password}
+//               onChange={handleSignInChange}
+//               onBlur={() => signInValidation.touchField("password")}
+//               showPassword={showSignInPassword}
+//               onTogglePassword={toggleSignInPassword}
+//               error={signInValidation.getFieldError("password")}
+//               required
+//             />
+
+//             <div className="flex items-center justify-between w-full my-2.5">
+//               <label className="flex items-center text-xs sm:text-sm text-gray-600 whitespace-nowrap">
+//                 <input
+//                   type="checkbox"
+//                   name="rememberMe"
+//                   checked={signInData.rememberMe}
+//                   onChange={handleSignInChange}
+//                   className="mr-2 rounded"
+//                 />
+//                 Remember me
+//               </label>
+//               <button
+//                 type="button"
+//                 onClick={onForgotPassword}
+//                 className="text-xs sm:text-sm text-gray-600 hover:text-[#4361ee] whitespace-nowrap ml-2"
+//               >
+//                 Forgot password?
+//               </button>
+//             </div>
+
+//             {submitError && (
+//               <div className="w-full mb-4 p-2 bg-red-50 border border-red-200 rounded-lg">
+//                 <p className="text-xs text-red-600 text-center">{submitError}</p>
+//               </div>
+//             )}
+
+//             {submitSuccess && (
+//               <div className="w-full mb-4 p-2 bg-green-50 border border-green-200 rounded-lg">
+//                 <p className="text-xs text-green-600 text-center">{submitSuccess}</p>
+//               </div>
+//             )}
+
+//             <Button
+//               type="submit"
+//               variant="primary"
+//               disabled={isSubmitting || !signInValidation.isValid}
+//               className={isSubmitting ? "opacity-50 cursor-not-allowed" : ""}
+//             >
+//               {isSubmitting ? "Signing In..." : "Sign In"}
+//             </Button>
+
+//             <p className="mt-4 text-xs sm:text-sm text-gray-600">
+//               New user?{" "}
+//               <button
+//                 type="button"
+//                 onClick={() => setIsSignUpActive(true)}
+//                 className="text-[#4361ee] font-semibold hover:underline focus:outline-none"
+//               >
+//                 Register here
+//               </button>
+//             </p>
+//           </form>
+//         </div>
+
+//         {/* Overlay Container */}
+//         <div
+//           className={`hidden md:block absolute top-0 left-0 md:left-1/2 w-full md:w-1/2 h-full overflow-hidden transition-all duration-700 ease-in-out z-20 ${
+//             isSignUpActive ? "md:-translate-x-full" : "md:translate-x-0"
+//           }`}
+//         >
+//           <div
+//             className={`relative -left-full md:-left-full w-full md:w-[200%] h-full bg-gradient-to-r from-[#4361ee] to-[#3a0ca3] text-white transition-all duration-700 ease-in-out ${
+//               isSignUpActive ? "md:translate-x-1/2" : "md:translate-x-0"
+//             }`}
+//           >
+//             {/* Overlay Left */}
+//             <div
+//               className={`absolute w-full md:w-1/2 h-full flex flex-col justify-center items-center text-center p-8 transition-all duration-700 ease-in-out top-0 left-0 ${
+//                 isSignUpActive
+//                   ? "md:translate-x-0 opacity-100"
+//                   : "md:-translate-x-1/5 opacity-0"
+//               }`}
+//             >
+//               <h1 className="text-3xl font-bold mb-4">Welcome Back!</h1>
+//               <p className="mb-4">Already have an account?</p>
+
+//               {showToggleSwitch && (
+//                 <div className="bg-white/20 rounded-full p-2 mb-6 w-full max-w-[250px]">
+//                   <div className="flex items-center justify-center gap-2">
+//                     <span
+//                       className={`text-sm font-medium transition-colors ${
+//                         signInMethod === "email" ? "text-white" : "text-white/60"
+//                       }`}
+//                     >
+//                       <i className="fas fa-envelope mr-1"></i>
+//                       Email
+//                     </span>
+
+//                     <label className="switch">
+//                       <input
+//                         type="checkbox"
+//                         checked={signInMethod === "mobile"}
+//                         onChange={(e) =>
+//                           setSignInMethod(e.target.checked ? "mobile" : "email")
+//                         }
+//                       />
+//                       <span className="slider round bg-white/30"></span>
+//                     </label>
+
+//                     <span
+//                       className={`text-sm font-medium transition-colors ${
+//                         signInMethod === "mobile" ? "text-white" : "text-white/60"
+//                       }`}
+//                     >
+//                       <i className="fas fa-phone mr-1"></i>
+//                       Mobile
+//                     </span>
+//                   </div>
+//                 </div>
+//               )}
+
+//               <Button
+//                 onClick={() => setIsSignUpActive(false)}
+//                 variant="ghost"
+//                 className="mt-2"
+//               >
+//                 Sign In with {signInMethod === "email" ? "Email" : "Mobile"}
+//               </Button>
+//             </div>
+
+//             {/* Overlay Right */}
+//             <div
+//               className={`absolute w-full md:w-1/2 h-full flex flex-col justify-center items-center p-8 transition-all duration-700 ease-in-out top-0 right-0 ${
+//                 isSignUpActive
+//                   ? "md:translate-x-0 opacity-0"
+//                   : "md:translate-x-0 opacity-100"
+//               }`}
+//             >
+//               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 max-w-md w-full flex justify-center">
+//                 <PezziLogo />
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//       <style>{`
+//         /* Toggle Switch Styles */
+//         .switch {
+//           position: relative;
+//           display: inline-block;
+//           width: 46px;
+//           height: 22px;
+//           margin: 0 4px;
+//         }
+
+//         @media (min-width: 768px) {
+//           .switch {
+//             width: 50px;
+//             height: 24px;
+//             margin: 0 8px;
+//           }
+//         }
+
+//         .switch input {
+//           opacity: 0;
+//           width: 0;
+//           height: 0;
+//           z-index: 10;
+//           position: relative;
+//           cursor: pointer;
+//         }
+
+//         .slider {
+//           position: absolute;
+//           cursor: pointer;
+//           top: 0;
+//           left: 0;
+//           right: 0;
+//           bottom: 0;
+//           background-color: #ccc;
+//           transition: .3s;
+//         }
+
+//         .slider:before {
+//           position: absolute;
+//           content: "";
+//           height: 16px;
+//           width: 16px;
+//           left: 3px;
+//           bottom: 3px;
+//           background-color: white;
+//           transition: .3s;
+//         }
+
+//         @media (min-width: 768px) {
+//           .slider:before {
+//             height: 18px;
+//             width: 18px;
+//           }
+//         }
+
+//         input:checked + .slider {
+//           background-color: #4361ee;
+//         }
+
+//         input:focus + .slider {
+//           box-shadow: 0 0 1px #4361ee;
+//         }
+
+//         input:checked + .slider:before {
+//           transform: translateX(24px);
+//         }
+
+//         @media (min-width: 768px) {
+//           input:checked + .slider:before {
+//             transform: translateX(26px);
+//           }
+//         }
+
+//         .slider.round {
+//           border-radius: 24px;
+//         }
+
+//         .slider.round:before {
+//           border-radius: 50%;
+//         }
+
+//         .method-container {
+//           display: flex;
+//           align-items: center;
+//           justify-content: center;
+//           margin-bottom: 16px;
+//           background: #f3f4f6;
+//           padding: 6px 12px;
+//           border-radius: 40px;
+//           width: 100%;
+//         }
+
+//         @media (min-width: 768px) {
+//           .method-container {
+//             margin-bottom: 20px;
+//             padding: 8px 16px;
+//           }
+//         }
+
+//         .method-label {
+//           display: flex;
+//           align-items: center;
+//           gap: 4px;
+//           font-size: 12px;
+//           color: #4b5563;
+//         }
+
+//         @media (min-width: 768px) {
+//           .method-label {
+//             gap: 6px;
+//             font-size: 14px;
+//           }
+//         }
+
+//         .method-label.active {
+//           color: #4361ee;
+//           font-weight: 500;
+//         }
+
+//         .method-label i {
+//           font-size: 12px;
+//         }
+
+//         @media (min-width: 768px) {
+//           .method-label i {
+//             font-size: 14px;
+//           }
+//         }
+
+//         @keyframes blob {
+//           0% {
+//             transform: translate(0px, 0px) scale(1);
+//           }
+//           33% {
+//             transform: translate(30px, -50px) scale(1.1);
+//           }
+//           66% {
+//             transform: translate(-20px, 20px) scale(0.9);
+//           }
+//           100% {
+//             transform: translate(0px, 0px) scale(1);
+//           }
+//         }
+//         .animate-blob {
+//           animation: blob 7s infinite;
+//         }
+//         .animation-delay-2000 {
+//           animation-delay: 2s;
+//         }
+//         .animation-delay-4000 {
+//           animation-delay: 4s;
+//         }
+//       `}</style>
+//     </div>
+//   );
+// };
+
+// export default Login;
+
+
+
+import React from 'react';
+import { User, Lock } from 'lucide-react';
+// Assuming your path is correct
+import photo from '../assets/image.jpeg';
+
+const Login = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-blue-100 flex items-center justify-center p-2 sm:p-4">
-      {/* Hidden developer button */}
-      {process.env.NODE_ENV === "development" && (
-        <button
-          onClick={() => setShowToggleSwitch(!showToggleSwitch)}
-          className="fixed top-4 right-4 z-50 bg-blue-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm hover:bg-blue-700 transition-colors"
-        >
-          {showToggleSwitch ? "Hide" : "Show"} Toggle
-        </button>
-      )}
+    <div 
+      className="min-h-screen w-full flex items-center justify-center bg-cover bg-center bg-no-repeat p-4 sm:p-8 font-sans relative overflow-hidden"
+      style={{ backgroundImage: `url(${photo})` }} 
+    >
+      {/* Overlay: Slightly darker for better contrast on mobile */}
+      <div className="absolute inset-0 bg-blue-900/30 lg:bg-blue-900/20 pointer-events-none"></div>
 
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-        <div className="absolute top-40 left-40 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
-      </div>
+      <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center z-10">
+        
+        {/* Left Side: Information - Now handles tablets better */}
+        <div className="text-white space-y-4 md:space-y-6 hidden lg:block self-center lg:self-start lg:mt-10"> 
+          <h1 className="text-4xl xl:text-6xl font-bold tracking-tight drop-shadow-2xl">
+            Welcome to Pezzi
+          </h1>
+          <p className="text-xl xl:text-2xl font-medium opacity-90 drop-shadow-lg">
+            Attendance & Payroll Management Simplified.
+          </p>
+          <p className="text-base xl:text-lg opacity-80 max-w-md leading-relaxed drop-shadow-md">
+            Securely log in to access your employee attendance and payroll dashboard.
+          </p>
+        </div>
 
-      <div className="relative w-full max-w-4xl min-h-[500px] sm:min-h-[550px] bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden">
-        {/* Sign Up Form */}
-        <div
-          className={`
-          absolute top-0 h-full w-full md:w-1/2 flex justify-center items-center
-          transition-all duration-700 ease-in-out left-0
-          ${isSignUpActive ? "translate-x-0 opacity-100 z-10 md:translate-x-full" : "translate-x-0 opacity-0 z-0 md:translate-x-0"}
-        `}
-        >
-          <form
-            className="w-11/12 sm:w-4/5 flex flex-col items-center"
-            onSubmit={handleSignUpSubmit}
-            noValidate
-          >
-            {/* Combined heading section for Sign Up */}
-            <div className="text-center mb-6 sm:mb-8">
-              <h1 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-2">
-                Pezzi
-              </h1>
-              <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
-                Create Account
-              </h2>
-            </div>
+        {/* Right Side: Login Card */}
+        <div className="flex justify-center lg:justify-end w-full">
+          <div className="bg-white/95 backdrop-blur-md rounded-[2rem] md:rounded-[2.5rem] shadow-2xl p-6 md:p-10 lg:p-12 w-full max-w-[440px] border border-white/40">
+            
+            {/* Logo or Title for Mobile (Shows only when the left side is hidden) */}
+            {/* <div className="lg:hidden text-center mb-8">
+                <h1 className="text-3xl font-bold text-blue-900">Pezzi</h1>
+                <p className="text-gray-500 text-sm">Attendance & Payroll</p>
+            </div> */}
 
-            {showToggleSwitch && (
-              <ToggleSwitch
-                leftLabel="Email"
-                rightLabel="Mobile"
-                leftIcon="envelope"
-                rightIcon="phone"
-                checked={signUpMethod === "mobile"}
-                onChange={setSignUpMethod}
-                leftValue="email"
-                rightValue="mobile"
-              />
-            )}
-
-            <InputField
-              type="text"
-              placeholder="Full Name"
-              icon="user"
-              name="fullName"
-              value={signUpData.fullName}
-              onChange={handleSignUpChange}
-              onBlur={() => signUpValidation.touchField("fullName")}
-              // error={signUpValidation.getFieldError("fullName")}
-              required
-            />
-
-            {signUpMethod === "mobile" ? (
-              <InputField
-                type="tel"
-                placeholder="Enter Your Mobile Number"
-                icon="phone"
-                name="mobile"
-                value={signUpData.mobile}
-                onChange={handleSignUpChange}
-                onBlur={() => signUpValidation.touchField("mobile")}
-                onKeyPress={(e) => {
-                  if (!/[0-9]/.test(e.key)) {
-                    e.preventDefault();
-                  }
-                }}
-                onInput={(e) => {
-                  e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                }}
-                // error={signUpValidation.getFieldError("mobile")}
-                pattern="[0-9]{10}"
-                title="Please enter 10 digit mobile number"
-                maxLength={10}
-                required
-              />
-            ) : (
-              <InputField
-                type="email"
-                placeholder="Enter Your Email"
-                // icon="envelope"
-                icon="user"
-                name="email"
-                value={signUpData.email}
-                onChange={handleSignUpChange}
-                onBlur={() => signUpValidation.touchField("email")}
-                // error={signUpValidation.getFieldError("email")}
-                required
-              />
-            )}
-
-            <PasswordField
-              placeholder="Enter Your Password"
-              name="password"
-              value={signUpData.password}
-              onChange={handleSignUpChange}
-              onBlur={() => signUpValidation.touchField("password")}
-              showPassword={showSignUpPassword}
-              onTogglePassword={toggleSignUpPassword}
-              error={signUpValidation.getFieldError("password")}
-              required
-            />
-
-            {/* Password strength indicator */}
-            {signUpData.password && signUpData.password.length > 0 && (
-              <div className="w-full mb-4">
-                <div className="flex justify-between mb-1">
-                  <span className="text-xs text-gray-600">Password strength:</span>
-                  <span className="text-xs font-medium">
-                    {signUpData.password.length < 8
-                      ? "Weak"
-                      : /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])/.test(signUpData.password)
-                        ? "Strong"
-                        : "Medium"}
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-8 md:mb-10">
+              Log in to Pezzi
+            </h2>
+            
+            <form className="space-y-5">
+              <div className="space-y-2">
+                <label className="text-xs md:text-sm font-semibold text-gray-700 ml-1">Username</label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
+                    <User size={18} />
                   </span>
-                </div>
-                <div className="w-full h-1 bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className={`h-full transition-all duration-300 ${
-                      signUpData.password.length < 8
-                        ? "bg-red-500 w-1/3"
-                        : /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])/.test(signUpData.password)
-                          ? "bg-green-500 w-full"
-                          : "bg-yellow-500 w-2/3"
-                    }`}
+                  <input 
+                    type="text" 
+                    placeholder="Enter Username" 
+                    className="w-full pl-11 pr-4 py-3.5 md:py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none text-sm md:text-base"
                   />
                 </div>
               </div>
-            )}
 
-            {submitError && (
-              <div className="w-full mb-4 p-2 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-xs text-red-600 text-center">{submitError}</p>
-              </div>
-            )}
-
-            {submitSuccess && (
-              <div className="w-full mb-4 p-2 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-xs text-green-600 text-center">{submitSuccess}</p>
-              </div>
-            )}
-
-            <Button
-              type="submit"
-              variant="primary"
-              disabled={isSubmitting || !signUpValidation.isValid}
-              className={isSubmitting ? "opacity-50 cursor-not-allowed" : ""}
-            >
-              {isSubmitting ? "Creating Account..." : "Sign Up"}
-            </Button>
-
-            <p className="mt-4 text-sm text-gray-600 md:hidden">
-              Already have an account?{" "}
-              <button
-                type="button"
-                onClick={() => setIsSignUpActive(false)}
-                className="text-[#4361ee] font-semibold hover:underline focus:outline-none"
-              >
-                Sign In
-              </button>
-            </p>
-          </form>
-        </div>
-
-        {/* Sign In Form */}
-        <div
-          className={`
-          absolute top-0 h-full w-full md:w-1/2 flex justify-center items-center
-          transition-all duration-700 ease-in-out left-0
-          ${isSignUpActive ? "translate-x-0 opacity-0 z-0 md:translate-x-full" : "translate-x-0 opacity-100 z-10 md:translate-x-0"}
-        `}
-        >
-          <form
-            className="w-11/12 sm:w-4/5 flex flex-col items-center"
-            onSubmit={handleSignInSubmit}
-            noValidate
-          >
-            {/* Combined heading section for Sign In */}
-            <div className="text-center mb-8 sm:mb-10">
-              <h1 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-2">
-                Pezzi
-              </h1>
-              <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
-                Sign In
-              </h2>
-            </div>
-
-            {showToggleSwitch && (
-              <ToggleSwitch
-                leftLabel="Email"
-                rightLabel="Mobile"
-                leftIcon="envelope"
-                rightIcon="phone"
-                checked={signInMethod === "mobile"}
-                onChange={setSignInMethod}
-                leftValue="email"
-                rightValue="mobile"
-              />
-            )}
-
-            {signInValidation.touchedFields.credential && signInValidation.errors.credential && (
-              <div className="w-full mb-2">
-                <p className="text-xs text-red-500">{signInValidation.errors.credential}</p>
-              </div>
-            )}
-
-            {signInMethod === "mobile" ? (
-              <InputField
-                type="tel"
-                placeholder="Enter Your Mobile Number"
-                icon="phone"
-                name="mobile"
-                value={signInData.mobile}
-                onChange={handleSignInChange}
-                onBlur={() => signInValidation.touchField("mobile")}
-                onKeyPress={(e) => {
-                  if (!/[0-9]/.test(e.key)) {
-                    e.preventDefault();
-                  }
-                }}
-                onInput={(e) => {
-                  e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                }}
-                // error={signInValidation.getFieldError("mobile")}
-                pattern="[0-9]{10}"
-                title="Please enter 10 digit mobile number"
-                maxLength={10}
-                required
-              />
-            ) : (
-              <InputField
-                type="email"
-                placeholder="Enter the UserId"
-                // icon="envelope"
-                icon="user"
-                name="email"
-                value={signInData.email}
-                onChange={handleSignInChange}
-                onBlur={() => signInValidation.touchField("email")}
-                // error={signInValidation.getFieldError("email")}
-                required
-              />
-            )}
-
-            <PasswordField
-              placeholder="Password"
-              name="password"
-              value={signInData.password}
-              onChange={handleSignInChange}
-              onBlur={() => signInValidation.touchField("password")}
-              showPassword={showSignInPassword}
-              onTogglePassword={toggleSignInPassword}
-              error={signInValidation.getFieldError("password")}
-              required
-            />
-
-            <div className="flex items-center justify-between w-full my-2.5">
-              <label className="flex items-center text-xs sm:text-sm text-gray-600 whitespace-nowrap">
-                <input
-                  type="checkbox"
-                  name="rememberMe"
-                  checked={signInData.rememberMe}
-                  onChange={handleSignInChange}
-                  className="mr-2 rounded"
-                />
-                Remember me
-              </label>
-              <button
-                type="button"
-                onClick={onForgotPassword}
-                className="text-xs sm:text-sm text-gray-600 hover:text-[#4361ee] whitespace-nowrap ml-2"
-              >
-                Forgot password?
-              </button>
-            </div>
-
-            {submitError && (
-              <div className="w-full mb-4 p-2 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-xs text-red-600 text-center">{submitError}</p>
-              </div>
-            )}
-
-            {submitSuccess && (
-              <div className="w-full mb-4 p-2 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-xs text-green-600 text-center">{submitSuccess}</p>
-              </div>
-            )}
-
-            <Button
-              type="submit"
-              variant="primary"
-              disabled={isSubmitting || !signInValidation.isValid}
-              className={isSubmitting ? "opacity-50 cursor-not-allowed" : ""}
-            >
-              {isSubmitting ? "Signing In..." : "Sign In"}
-            </Button>
-
-            <p className="mt-4 text-xs sm:text-sm text-gray-600">
-              New user?{" "}
-              <button
-                type="button"
-                onClick={() => setIsSignUpActive(true)}
-                className="text-[#4361ee] font-semibold hover:underline focus:outline-none"
-              >
-                Register here
-              </button>
-            </p>
-          </form>
-        </div>
-
-        {/* Overlay Container */}
-        <div
-          className={`hidden md:block absolute top-0 left-0 md:left-1/2 w-full md:w-1/2 h-full overflow-hidden transition-all duration-700 ease-in-out z-20 ${
-            isSignUpActive ? "md:-translate-x-full" : "md:translate-x-0"
-          }`}
-        >
-          <div
-            className={`relative -left-full md:-left-full w-full md:w-[200%] h-full bg-gradient-to-r from-[#4361ee] to-[#3a0ca3] text-white transition-all duration-700 ease-in-out ${
-              isSignUpActive ? "md:translate-x-1/2" : "md:translate-x-0"
-            }`}
-          >
-            {/* Overlay Left */}
-            <div
-              className={`absolute w-full md:w-1/2 h-full flex flex-col justify-center items-center text-center p-8 transition-all duration-700 ease-in-out top-0 left-0 ${
-                isSignUpActive
-                  ? "md:translate-x-0 opacity-100"
-                  : "md:-translate-x-1/5 opacity-0"
-              }`}
-            >
-              <h1 className="text-3xl font-bold mb-4">Welcome Back!</h1>
-              <p className="mb-4">Already have an account?</p>
-
-              {showToggleSwitch && (
-                <div className="bg-white/20 rounded-full p-2 mb-6 w-full max-w-[250px]">
-                  <div className="flex items-center justify-center gap-2">
-                    <span
-                      className={`text-sm font-medium transition-colors ${
-                        signInMethod === "email" ? "text-white" : "text-white/60"
-                      }`}
-                    >
-                      <i className="fas fa-envelope mr-1"></i>
-                      Email
-                    </span>
-
-                    <label className="switch">
-                      <input
-                        type="checkbox"
-                        checked={signInMethod === "mobile"}
-                        onChange={(e) =>
-                          setSignInMethod(e.target.checked ? "mobile" : "email")
-                        }
-                      />
-                      <span className="slider round bg-white/30"></span>
-                    </label>
-
-                    <span
-                      className={`text-sm font-medium transition-colors ${
-                        signInMethod === "mobile" ? "text-white" : "text-white/60"
-                      }`}
-                    >
-                      <i className="fas fa-phone mr-1"></i>
-                      Mobile
-                    </span>
-                  </div>
+              <div className="space-y-2">
+                <label className="text-xs md:text-sm font-semibold text-gray-700 ml-1">Password</label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
+                    <Lock size={18} />
+                  </span>
+                  <input 
+                    type="password" 
+                    placeholder="Enter  password" 
+                    className="w-full pl-11 pr-4 py-3.5 md:py-4 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none text-sm md:text-base"
+                  />
                 </div>
-              )}
-
-              <Button
-                onClick={() => setIsSignUpActive(false)}
-                variant="ghost"
-                className="mt-2"
-              >
-                Sign In with {signInMethod === "email" ? "Email" : "Mobile"}
-              </Button>
-            </div>
-
-            {/* Overlay Right */}
-            <div
-              className={`absolute w-full md:w-1/2 h-full flex flex-col justify-center items-center p-8 transition-all duration-700 ease-in-out top-0 right-0 ${
-                isSignUpActive
-                  ? "md:translate-x-0 opacity-0"
-                  : "md:translate-x-0 opacity-100"
-              }`}
-            >
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 max-w-md w-full flex justify-center">
-                <PezziLogo />
               </div>
+
+              <div className="flex justify-end">
+                <a href="#" className="text-xs md:text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors">
+                  Forgot password?
+                </a>
+              </div>
+
+              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 md:py-4 rounded-xl shadow-lg shadow-blue-200 transition-all active:scale-[0.98] text-sm md:text-base">
+                Log In
+              </button>
+            </form>
+
+            <div className="mt-8 md:mt-10 pt-6 md:pt-8 border-t border-gray-100 text-center">
+              <p className="text-gray-600 text-sm md:text-base">
+                Don't have an account? <a href="#" className="text-blue-600 font-bold hover:underline">Sign up</a>
+              </p>
+            </div>
+            
+            {/* Footer Links - Stacked on tiny screens, Row on larger */}
+            <div className="mt-8 flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] md:text-xs text-gray-400 font-medium">
+              <span>© 2024 Pezzi</span>
+              <a href="#" className="hover:text-gray-600">Privacy Policy</a>
+              <a href="#" className="hover:text-gray-600">Terms of Service</a>
             </div>
           </div>
         </div>
+
       </div>
-      <style>{`
-        /* Toggle Switch Styles */
-        .switch {
-          position: relative;
-          display: inline-block;
-          width: 46px;
-          height: 22px;
-          margin: 0 4px;
-        }
-
-        @media (min-width: 768px) {
-          .switch {
-            width: 50px;
-            height: 24px;
-            margin: 0 8px;
-          }
-        }
-
-        .switch input {
-          opacity: 0;
-          width: 0;
-          height: 0;
-          z-index: 10;
-          position: relative;
-          cursor: pointer;
-        }
-
-        .slider {
-          position: absolute;
-          cursor: pointer;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-color: #ccc;
-          transition: .3s;
-        }
-
-        .slider:before {
-          position: absolute;
-          content: "";
-          height: 16px;
-          width: 16px;
-          left: 3px;
-          bottom: 3px;
-          background-color: white;
-          transition: .3s;
-        }
-
-        @media (min-width: 768px) {
-          .slider:before {
-            height: 18px;
-            width: 18px;
-          }
-        }
-
-        input:checked + .slider {
-          background-color: #4361ee;
-        }
-
-        input:focus + .slider {
-          box-shadow: 0 0 1px #4361ee;
-        }
-
-        input:checked + .slider:before {
-          transform: translateX(24px);
-        }
-
-        @media (min-width: 768px) {
-          input:checked + .slider:before {
-            transform: translateX(26px);
-          }
-        }
-
-        .slider.round {
-          border-radius: 24px;
-        }
-
-        .slider.round:before {
-          border-radius: 50%;
-        }
-
-        .method-container {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: 16px;
-          background: #f3f4f6;
-          padding: 6px 12px;
-          border-radius: 40px;
-          width: 100%;
-        }
-
-        @media (min-width: 768px) {
-          .method-container {
-            margin-bottom: 20px;
-            padding: 8px 16px;
-          }
-        }
-
-        .method-label {
-          display: flex;
-          align-items: center;
-          gap: 4px;
-          font-size: 12px;
-          color: #4b5563;
-        }
-
-        @media (min-width: 768px) {
-          .method-label {
-            gap: 6px;
-            font-size: 14px;
-          }
-        }
-
-        .method-label.active {
-          color: #4361ee;
-          font-weight: 500;
-        }
-
-        .method-label i {
-          font-size: 12px;
-        }
-
-        @media (min-width: 768px) {
-          .method-label i {
-            font-size: 14px;
-          }
-        }
-
-        @keyframes blob {
-          0% {
-            transform: translate(0px, 0px) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-          100% {
-            transform: translate(0px, 0px) scale(1);
-          }
-        }
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-      `}</style>
     </div>
   );
 };
